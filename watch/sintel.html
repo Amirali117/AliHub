@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خود ارضایی دختر موسی خیاط</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #000000;
+      --bg-secondary: #1b1b1b;
+      --bg-hover: #272727;
+      --orange: #ff9000;
+      --orange-hover: #ffaa33;
+      --text: #ffffff;
+      --text-muted: #c7c7c7;
+      --border: #333;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .logo-ali { color: #fff; }
+    .logo-hub {
+      background: var(--orange);
+      color: #000;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-left: 2px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      margin: 0 30px;
+      display: flex;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: #222;
+      border: 1px solid #444;
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+      padding: 9px 12px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-box button {
+      background: var(--orange);
+      border: none;
+      padding: 0 16px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .header-actions a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      margin-left: 16px;
+    }
+
+    .header-actions a:hover { color: var(--orange); }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    .player-section { min-width: 0; }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .video-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 16px 0 10px;
+      line-height: 1.3;
+    }
+
+    .video-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .video-stats .rating {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      background: var(--bg-secondary);
+      border: 1px solid #444;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .actions button:hover {
+      background: var(--bg-hover);
+      border-color: var(--orange);
+    }
+
+    .actions button.primary {
+      background: var(--orange);
+      color: #000;
+      border-color: var(--orange);
+      font-weight: 600;
+    }
+
+    .actions button.primary:hover {
+      background: var(--orange-hover);
+    }
+
+    .description {
+      background: var(--bg-secondary);
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .description strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .sidebar h3 {
+      font-size: 15px;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .related-card {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.2s;
+    }
+
+    .related-card:hover { opacity: 0.85; }
+
+    .related-thumb {
+      width: 140px;
+      height: 80px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .related-thumb .duration {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+
+    .related-info { flex: 1; min-width: 0; }
+
+    .related-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .related-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 40px;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="logo">
+      <span class="logo-ali">Ali</span>
+      <span class="logo-hub">hub</span>
+    </a>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search movies...">
+      <button type="button">Search</button>
+    </div>
+
+    <div class="header-actions">
+      <a href="#">Login</a>
+      <a href="#">Sign Up</a>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="player-section">
+      <div class="video-wrapper">
+        <!-- 
+          ==============================
+          CHANGE VIDEO FILE HERE
+          ==============================
+          1. Put your MP4 inside /videos/ folder
+          2. Change the src below to: ../videos/your-file.mp4
+        -->
+        <video controls autoplay playsinline>
+          <source src="../videos/x3.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- CHANGE TITLE HERE -->
+      <h1 class="video-title">خود ارضایی دختر موسی خیاط</h1>
+
+      <div class="video-stats">
+        <span>3.1M views</span>
+        <span>•</span>
+        <span>Added 2 years ago</span>
+        <span>•</span>
+        <span class="rating">94%</span>
+      </div>
+
+      <div class="actions">
+        <button class="primary">👍 Like</button>
+        <button>👎 Dislike</button>
+        <button>➕ Add to</button>
+        <button>↗ Share</button>
+        <button>⬇ Download</button>
+      </div>
+
+      <!-- 
+        ==============================
+        CHANGE DESCRIPTION TEXT HERE
+        ==============================
+      -->
+      <div class="description">
+        <strong>Description</strong>
+        ...
+         <br><br>
+        <strong>Genre:</strong> XXX, Bitch&nbsp;|&nbsp; <strong>Year:</strong> 2010 &nbsp;|&nbsp; <strong>Duration:</strong> 14:48
+      </div>
+
+    </div>
+
+    <aside class="sidebar">
+      <h3>Related Movies</h3>
+
+      <a href="big-buck-bunny.html" class="related-card">
+        <div class="related-thumb">
+          🐰
+          <span class="duration">9:56</span>
+        </div>
+        <div class="related-info">
+          <div class="related-title">فیلم ننه امیر تاجیک</div>
+          <div class="related-meta">2.4M views • 96%</div>
+        </div>
+      </a>
+
+      <a href="elephants-dream.html" class="related-card">
+        <div class="related-thumb">
+          🐘
+          <span class="duration">10:53</span>
+        </div>
+        <div class="related-info">
+          <div class="related-title">فیلم ننه طاها حسینی</div>
+          <div class="related-meta">1.8M views • 92%</div>
+        </div>
+      </a>
+
+      <a href="sintel.html" class="related-card">
+        <div class="related-thumb">
+          🐉
+          <span class="duration">14:48</span>
+        </div>
+        <div class="related-info">
+          <div class="related-title">خود ارضایی دختر موسی خیاط</div>
+          <div class="related-meta">3.1M views • 94%</div>
+        </div>
+      </a>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <a href="../index.html">Home</a>
+      <a href="#">About</a>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+    </div>
+    <p style="margin-top: 12px; opacity: 0.7;">© 2026 Ali Hub</p>
+  </footer>
+
+</body>
+</html>

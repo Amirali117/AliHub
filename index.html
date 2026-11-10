@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #000000;
+      --bg-secondary: #1b1b1b;
+      --bg-hover: #272727;
+      --orange: #ff9000;
+      --orange-hover: #ffaa33;
+      --text: #ffffff;
+      --text-muted: #c7c7c7;
+      --border: #333;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-ali { color: #fff; padding: 4px 2px 4px 0; }
+    .logo-hub {
+      background: var(--orange);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-left: 2px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 520px;
+      margin: 0 40px;
+      display: flex;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: #222;
+      border: 1px solid #444;
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-box input:focus { border-color: var(--orange); }
+
+    .search-box button {
+      background: var(--orange);
+      border: none;
+      padding: 0 18px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .search-box button:hover { background: var(--orange-hover); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-actions a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .header-actions a:hover { color: var(--orange); }
+
+    .btn-upload {
+      background: var(--orange);
+      color: #000 !important;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .btn-upload:hover { background: var(--orange-hover); }
+
+    .nav-categories {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .nav-categories a {
+      display: inline-block;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      margin-right: 4px;
+      border-radius: 20px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .nav-categories a:hover,
+    .nav-categories a.active {
+      background: var(--orange);
+      color: #000;
+    }
+
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span { color: var(--orange); }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+
+    .video-card {
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-hover);
+    }
+
+    .thumb {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      color: #555;
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 7px;
+      border-radius: 3px;
+      font-weight: 600;
+      z-index: 2;
+    }
+
+    .hd-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--orange);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      z-index: 2;
+    }
+
+    .video-info {
+      padding: 12px 14px 16px;
+    }
+
+    .video-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.35;
+      min-height: 40px;
+    }
+
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .rating { color: var(--orange); font-weight: 600; }
+
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    .footer a:hover { color: var(--orange); }
+
+    .footer-logo {
+      margin-bottom: 14px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .footer-logo .logo-hub {
+      font-size: 18px;
+      padding: 2px 8px;
+    }
+
+    @media (max-width: 768px) {
+      .header { flex-wrap: wrap; gap: 12px; }
+      .search-box { order: 3; max-width: 100%; margin: 0; width: 100%; }
+      .video-grid { grid-template-columns: 1fr; }
+      .logo { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">
+      <span class="logo-ali">Ali</span>
+      <span class="logo-hub">hub</span>
+    </a>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search movies, actors, directors...">
+      <button type="button">Search</button>
+    </div>
+
+    <div class="header-actions">
+      <a href="#">Login</a>
+      <a href="#">Sign Up</a>
+      <a href="#" class="btn-upload">Upload</a>
+    </div>
+  </header>
+
+  <nav class="nav-categories">
+    <a href="#" class="active">All</a>
+    <a href="#">Hot girl</a>
+    <a href="#">Dog style</a>
+    <a href="#">Pornstar</a>
+    <a href="#">Live sex</a>
+  </nav>
+
+  <main class="main">
+    <h2 class="section-title">
+      <span>★</span> Featured Movies
+    </h2>
+
+    <div class="video-grid">
+
+      <!-- ========== MOVIE 1 ========== -->
+      <!-- 
+        HOW TO CHANGE THIS MOVIE:
+        1. Put your MP4 in /videos/ folder
+        2. Change data-video="videos/your-file.mp4"
+        3. Change the href to your watch page
+        4. Edit title, views, rating, duration below
+      -->
+      <a href="watch/big-buck-bunny.html" class="video-card" data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        <div class="thumb">
+          <div class="thumb-placeholder">🐰</div>
+          <span class="duration">9:56</span>
+          <span class="hd-badge">HD</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">فیلمم ننه امیرتاجیک</div>
+          <div class="video-meta">
+            <span>👁 2.4M views</span>
+            <span class="rating">96%</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ========== MOVIE 2 ========== -->
+      <a href="watch/elephants-dream.html" class="video-card" data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">
+        <div class="thumb">
+          <div class="thumb-placeholder">🐘</div>
+          <span class="duration">10:53</span>
+          <span class="hd-badge">HD</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">فیلم سوپر ننه طاها حسینی</div>
+          <div class="video-meta">
+            <span>👁 1.8M views</span>
+            <span class="rating">92%</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ========== MOVIE 3 ========== -->
+      <a href="watch/sintel.html" class="video-card" data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">
+        <div class="thumb">
+          <div class="thumb-placeholder">🐉</div>
+          <span class="duration">14:48</span>
+          <span class="hd-badge">HD</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">خود ارضایی دختر موسی خیاط</div>
+          <div class="video-meta">
+            <span>👁 3.1M views</span>
+            <span class="rating">94%</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-logo">
+      <span class="logo-ali">Ali</span><span class="logo-hub">hub</span>
+    </div>
+    <div>
+      <a href="#">About</a>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+      <a href="#">Support</a>
+    </div>
+    <p style="margin-top: 16px; opacity: 0.7;">
+      © 2026 Ali Hub
+    </p>
+  </footer>
+
+  <script>
+    // Auto-generate thumbnail from the FIRST FRAME of each video
+    document.querySelectorAll('.video-card[data-video]').forEach(card => {
+      const videoUrl = card.getAttribute('data-video');
+      const thumb = card.querySelector('.thumb');
+      const placeholder = thumb.querySelector('.thumb-placeholder');
+
+      const video = document.createElement('video');
+      video.crossOrigin = 'anonymous';
+      video.muted = true;
+      video.preload = 'metadata';
+      video.src = videoUrl;
+
+      video.addEventListener('loadeddata', () => {
+        video.currentTime = 0.8; // jump a bit into the video for a nice frame
+      });
+
+      video.addEventListener('seeked', () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 360;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL('image/jpeg', 0.85);
+          img.alt = 'thumbnail';
+
+          if (placeholder) placeholder.remove();
+          thumb.insertBefore(img, thumb.firstChild);
+        } catch (e) {
+          console.warn('Thumbnail generation failed (CORS):', e);
+        }
+        video.remove();
+      });
+
+      video.addEventListener('error', () => {
+        console.warn('Could not load video for thumbnail:', videoUrl);
+      });
+    });
+  </script>
+
+</body>
+</html>
